@@ -27,7 +27,7 @@ else
 CC_FLAGS="-std=c++17"
 fi
 
-CONTENT=$($GCC $CC_FLAGS -I "$SRCDIR" -E -P "$SRCDIR/mlx/backend/cpu/compiled_preamble.h" 2>/dev/null)
+CONTENT=$($GCC $CC_FLAGS -I "$SRCDIR" -E -P "$SRCDIR/mlx/backend/cpu/compiled_preamble.h" 2>/dev/null | sed -E "/^typedef [^;]+ _Float(16|32|64|128|32x|64x|128x);$/d")
 
 cat << EOF > "$OUTPUT_FILE"
 const char* get_kernel_preamble() {
